@@ -1,20 +1,32 @@
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Use camelCase" #-}
-type Sommet = Int
-type Arete = (Sommet, Sommet)
+type Vertex = Int
+type Edge = (Vertex, Vertex)
 
-data  Graphe = Graphe {sommets :: [Sommet] , aretes :: [Arete]} deriving Show
+data  Graph = Graph {vertices :: [Vertex] , edges :: [Edge]} deriving Show
 
 
-g1 :: Graphe
-g1 = Graphe [1,2,3,4,5] [(1,2),(2,3),(2,5),(3,1),(4,1)]
+g1 :: Graph
+g1 = Graph [1,2,3,4,5] [(1,2),(2,3),(2,5),(3,1),(4,1)]
 
-is_elem :: Sommet -> Graphe -> Bool 
-is_elem s g = elem s $ sommets g 
+isElem :: Vertex -> Graph -> Bool 
+isElem s g = elem s $ vertices g 
 
-neighbors :: Sommet -> Graphe -> [Sommet]
-neighbors s g = map (\(a,b) -> a+b-s) $ filter (\p -> s `elem` [fst p, snd p]) $ aretes g
+neighbors :: Vertex -> Graph -> [Vertex]
+neighbors s g = map (\(a,b) -> a+b-s) $ filter (\p -> s `elem` [fst p, snd p]) $ edges g
 
-degree :: Sommet -> Graphe ->  Int 
+degree :: Vertex -> Graph ->  Int 
 degree s g =length $ neighbors s g
 
+
+--TODO 
+path :: [Int] -> Graph 
+path l = Graph l (zip l $ drop  1 l)
+
+cycle :: [Int] -> Graph
+cycle [] = Graph [] []
+cycle l =  Graph l  $ (head l, last l) : zip l (drop 1 l)
+
+
+kGraph :: Int -> Graph
+kGraph = 
+
+addVertex  = undefined 
